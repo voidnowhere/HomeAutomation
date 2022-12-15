@@ -28,8 +28,13 @@ namespace HomeAutomation.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Explicit Discriminator
             modelBuilder.Entity<Person>().HasDiscriminator(p => p.Type);
             modelBuilder.Entity<Equipment>().HasDiscriminator(e => e.Type);
+            // Cascade Restrict
+            modelBuilder.Entity<Equipment>().HasOne(e => e.Room).WithMany(r => r.Equipments).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Log>().HasOne(l => l.Person).WithMany(p => p.Logs).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Log>().HasOne(l => l.Equipment).WithMany(e => e.Logs).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
