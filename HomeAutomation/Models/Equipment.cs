@@ -21,8 +21,8 @@ namespace HomeAutomation.Models
 
         public bool Up { get; set; }
 
-        public Room Room { get; set; }
+        public virtual Room Room { get; set; }
 
-        public List<Log> Logs { get; set; }
+        public virtual List<Log> Logs { get; set; }
     }
 }

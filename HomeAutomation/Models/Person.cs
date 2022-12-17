@@ -44,6 +44,6 @@ namespace HomeAutomation
         [DefaultValue(true)]
         public bool IsAcive { get; set; }
 
-        public List<Log> Logs { get; set; }
+        public virtual List<Log> Logs { get; set; }
     }
 }

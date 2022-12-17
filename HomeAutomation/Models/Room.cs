@@ -16,6 +16,6 @@ namespace HomeAutomation.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public List<Equipment> Equipments { get; set; }
+        public virtual List<Equipment> Equipments { get; set; }
     }
 }
