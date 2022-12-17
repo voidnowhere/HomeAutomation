@@ -18,8 +18,8 @@ namespace HomeAutomation.Models
         [MaxLength(100)]
         public string Status { get; set; }
 
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
 
-        public Equipment Equipment { get; set; }
+        public virtual Equipment Equipment { get; set; }
     }
 }

@@ -23,7 +23,9 @@ namespace HomeAutomation.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=homeautomation;uid=root;password=", new MySqlServerVersion(new Version(8, 0, 30)));
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseMySql("Server=localhost;Database=homeautomation;uid=root;password=", new MySqlServerVersion(new Version(8, 0, 30)));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
