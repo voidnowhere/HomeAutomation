@@ -40,6 +40,9 @@ namespace HomeAutomation
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             fillDataGridRooms();
+            toggleButtonOnOff.IsEnabled = false;
+            sliderTemperature.IsEnabled = false;
+            sliderVolume.IsEnabled = false;
         }
 
         private void dataGridRooms_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
