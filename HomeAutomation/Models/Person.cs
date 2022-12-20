@@ -13,7 +13,7 @@ namespace HomeAutomation
 {
     [Index(nameof(Login), IsUnique = true)]
     [Index(nameof(NIC), IsUnique = true)]
-    internal class Person
+    public class Person
     {
         public int Id { get; set; }
 

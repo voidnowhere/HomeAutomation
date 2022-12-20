@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    internal class Log
+    public class Log
     {
         public int Id { get; set; }
 

@@ -22,9 +22,14 @@ namespace HomeAutomation
     /// </summary>
     public partial class DashboardWindow : Window
     {
-        public DashboardWindow()
+        private AuthWindow authWindow;
+        private Person person;
+
+        public DashboardWindow(AuthWindow authWindow, Person person)
         {
             InitializeComponent();
+            this.authWindow = authWindow;
+            this.person = person;
         }
 
         private void fillDataGridRooms()
@@ -122,6 +127,7 @@ namespace HomeAutomation
         private void dataGridRoomEquipments_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             Equipment equipment = e.Row.Item as Equipment;
+            Room room = dataGridRooms.SelectedItem as Room;
             if (equipment.Name is null)
             {
                 MessageBox.Show("The equipment name is required !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -135,9 +141,9 @@ namespace HomeAutomation
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
-            if (dbContext.Equipments.Count(e => e.Name == equipment.Name && e.Id != equipment.Id) > 0)
+            if (dbContext.Equipments.Count(e => e.Name == equipment.Name && e.Id != equipment.Id && e.Room.Id == room.Id) > 0)
             {
-                MessageBox.Show("Equipment name already exists !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Equipment name already exists in the selected room !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Cancel = true;
                 return;
             }
@@ -205,6 +211,13 @@ namespace HomeAutomation
                 using AppDbContext dbContext = new AppDbContext();
                 equipment.Up = (bool)toggleButtonOnOff.IsChecked;
                 dbContext.Update(equipment);
+                dbContext.Attach(person);
+                dbContext.Logs.Add(new Log
+                {
+                    Person = person,
+                    Equipment = equipment,
+                    Status = "Turned " + ((equipment.Up) ? "On" : "Off")
+                });
                 dbContext.SaveChanges();
             }
         }
@@ -214,16 +227,24 @@ namespace HomeAutomation
             Equipment equipment = dataGridRoomEquipments.SelectedItem as Equipment;
             if (equipment is not null && equipment is AC or Heater)
             {
+                int temperature = (int)sliderTemperature.Value;
                 using AppDbContext dbContext = new AppDbContext();
                 if (equipment is AC)
                 {
-                    ((AC)equipment).Temperature = (int)sliderTemperature.Value;
+                    ((AC)equipment).Temperature = temperature;
                 }
                 else if (equipment is Heater)
                 {
-                    ((Heater)equipment).Temperature = (int)sliderTemperature.Value;
+                    ((Heater)equipment).Temperature = temperature;
                 }
                 dbContext.Equipments.Update(equipment);
+                dbContext.Attach(person);
+                dbContext.Logs.Add(new Log
+                {
+                    Person = person,
+                    Equipment = equipment,
+                    Status = $"Set temperature to {temperature}"
+                });
                 dbContext.SaveChanges();
             }
         }
@@ -233,11 +254,42 @@ namespace HomeAutomation
             Equipment equipment = dataGridRoomEquipments.SelectedItem as Equipment;
             if (equipment is not null && equipment is TV)
             {
+                int volume = (int)sliderVolume.Value;
                 using AppDbContext dbContext = new AppDbContext();
-                ((TV)equipment).Volume = (int)sliderVolume.Value;
+                ((TV)equipment).Volume = volume;
                 dbContext.Equipments.Update(equipment);
+                dbContext.Attach(person);
+                dbContext.Logs.Add(new Log
+                {
+                    Person = person,
+                    Equipment = equipment,
+                    Status = $"Set volume to {volume}"
+                });
                 dbContext.SaveChanges();
             }
+        }
+
+        private void menuItemChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            new ChangePasswordWindow(person).ShowDialog();
+        }
+
+        private void menuItemEquipmentsLogs_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            new EquipmentsLogsWindow(authWindow, person).Show();
+        }
+
+        private void menuItemUsersManagement_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            new UsersManagementWindow(authWindow, person).Show();
+        }
+
+        private void menuItemLogout_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            authWindow.Show();
         }
     }
 }

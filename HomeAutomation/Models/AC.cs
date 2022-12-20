@@ -5,10 +5,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace HomeAutomation.Models
 {
-    internal class AC : Equipment
+    public class AC : Equipment
     {
         public int? Temperature { get; set; }
     }
