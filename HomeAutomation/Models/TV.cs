@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    internal class TV : Equipment
+    public class TV : Equipment
     {
         [DefaultValue(0)]
         public int Volume { get; set; }

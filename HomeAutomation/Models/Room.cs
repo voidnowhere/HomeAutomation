@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace HomeAutomation.Models
 {
     [Index(nameof(Name), IsUnique = true)]
-    internal class Room
+    public class Room
     {
         public int Id { get; set; }
 

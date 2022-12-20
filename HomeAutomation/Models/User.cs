@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    internal class User : Person
+    public class User : Person
     {
     }
 }

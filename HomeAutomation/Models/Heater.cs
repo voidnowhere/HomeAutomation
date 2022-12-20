@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    internal class Heater : Equipment
+    public class Heater : Equipment
     {
         public int? Temperature { get; set; }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    internal class Lamp : Equipment
+    public class Lamp : Equipment
     {
     }
 }
