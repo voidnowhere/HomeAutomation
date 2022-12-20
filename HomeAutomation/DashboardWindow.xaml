@@ -37,7 +37,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Label Grid.Column="1" Grid.Row="0" Content="Equipments" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <DataGrid Name="dataGridRoomEquipments" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" 
+            <DataGrid Drop="dataGridRoomEquipments_Drop" AllowDrop="True" Name="dataGridRoomEquipments" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" 
                       CanUserAddRows="False" CanUserDeleteRows="False"
                       RowEditEnding="dataGridRoomEquipments_RowEditEnding"
                       PreviewKeyDown="dataGridRoomEquipments_PreviewKeyDown"
@@ -58,6 +58,18 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Content="Equipments Box" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <ListView DragEnter="ListEquipment_DragEnter" AllowDrop="True" Grid.Row="1" Name="ListEquipment" d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="70" DisplayMemberBinding="{Binding Name}" />
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" >
+                        <EventSetter Event="MouseMove" Handler="TodoItem_MouseMove" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
