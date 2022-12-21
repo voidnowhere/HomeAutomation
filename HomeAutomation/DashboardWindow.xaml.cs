@@ -1,4 +1,4 @@
-﻿using HomeAutomation.Models;
+using HomeAutomation.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,13 @@ namespace HomeAutomation
             InitializeComponent();
             this.authWindow = authWindow;
             this.person = person;
+            List<Equipment> items = new List<Equipment>();
+            items.Add(new Equipment() { Name = "AC" });
+            items.Add(new Equipment() { Name = "TV" });
+            items.Add(new Equipment() { Name = "Heater" });
+            items.Add(new Equipment() { Name = "Door" });
+            items.Add(new Equipment() { Name = "Lamp" });
+            ListEquipment.ItemsSource = items;
         }
 
         private void fillDataGridRooms()
@@ -117,6 +124,7 @@ namespace HomeAutomation
         private void dataGridRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Room room = dataGridRooms.SelectedItem as Room;
+            
             if (room is not null)
             {
                 fillDataGridRoomEquipments(room);
@@ -270,6 +278,106 @@ namespace HomeAutomation
                 });
                 dbContext.SaveChanges();
             }
+        }
+
+        private void ListEquipment_DragEnter(object sender, DragEventArgs e)
+        {
+
+            e.Effects = DragDropEffects.All;
+            e.Handled = true;
+
+        }
+
+        private void TodoItem_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            if (e.LeftButton == MouseButtonState.Pressed && sender is FrameworkElement frameworkElement)
+            {
+                DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, frameworkElement.DataContext), DragDropEffects.All);
+            }
+
+        }
+
+        private void dataGridRoomEquipments_Drop(object sender, DragEventArgs e)
+        {
+            //object data = e.Data.GetData(DataFormats.Serializable);
+            using AppDbContext dbContext = new AppDbContext();
+
+            e.Effects = DragDropEffects.All;
+            e.Handled = true;
+
+            Equipment equipment = ListEquipment.SelectedItem as Equipment;
+            Room room = dataGridRooms.SelectedItem as Room;
+
+            if(room is null)
+            {
+                MessageBox.Show("please select a line on the list room", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return; 
+
+            }
+
+            dbContext.Attach(room);
+             if (equipment.Name == "AC")
+            {
+                
+                dbContext.ACs.Add(new AC
+                {
+                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Room = room,
+                    Up = false
+                    
+                }); 
+
+            }
+            else if (equipment.Name == "TV")
+            {
+                dbContext.TVs.Add(new TV
+                {
+                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e=>e.Id)+1),
+                    Room = room,
+                    Up = false
+
+                });
+
+            }
+            else if (equipment.Name == "Heater")
+            {
+                dbContext.Heaters.Add(new Heater
+                {
+                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Room = room,
+                    Up = false
+
+                });
+
+            }
+            else if (equipment.Name == "Door")
+            {
+                dbContext.Doors.Add(new Door
+                {
+                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Room = room,
+                    Up = false
+
+                });
+
+
+            }
+            else if (equipment.Name == "Lamp")
+            {
+                dbContext.Lamps.Add(new Lamp
+                {
+                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Room = room,
+                    Up = false
+
+                });
+               
+            }
+
+            fillDataGridRoomEquipments(room);
+            dbContext.SaveChanges();
+
         }
 
         private void menuItemChangePassword_Click(object sender, RoutedEventArgs e)
