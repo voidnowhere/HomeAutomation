@@ -46,6 +46,14 @@ namespace HomeAutomation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (person is User)
+            {
+                dataGridRooms.IsReadOnly = true;
+                dataGridRoomEquipments.IsReadOnly = true;
+                ListEquipment.IsEnabled = false;
+                menuItemUsersManagement.IsEnabled = false;
+                menuItemEquipmentsLogs.IsEnabled = false;
+            }
             fillDataGridRooms();
             toggleButtonOnOff.IsEnabled = false;
             sliderTemperature.IsEnabled = false;
