@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HomeAutomation.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +29,9 @@ namespace HomeAutomation
             InitializeComponent();
             this.authWindow = authWindow;
             this.person = person;
+
+            ListPeople.ItemsSource = new AppDbContext().People.ToList();
+
         }
 
         private void menuItemDashboard_Click(object sender, RoutedEventArgs e)
@@ -50,6 +55,17 @@ namespace HomeAutomation
         {
             Close();
             authWindow.Show();
+        }
+
+        private void ListPeople_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using AppDbContext dbContext = new AppDbContext();
+            Person person = ListPeople.SelectedItem as Person;
+        
+           // ListLogs.ItemsSource = new AppDbContext().Logs.Where(l => l.Person.Id == person.Id).ToList();
+
+            ListLogs.ItemsSource = dbContext.Logs.Include(l=> l.Equipment).Where(l=> l.Person.Id == person.Id).ToList();
+
         }
     }
 }
