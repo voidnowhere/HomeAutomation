@@ -283,7 +283,7 @@ namespace HomeAutomation
 
             if(room is null)
             {
-                MessageBox.Show("veuillez selection une ligne sur la list room", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("please select a line on the list room", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
 
             }
@@ -298,10 +298,7 @@ namespace HomeAutomation
                     Room = room,
                     Up = false
                     
-                });
-
-              
-               
+                }); 
 
             }
             else if (equipment.Name == "TV")
@@ -314,9 +311,6 @@ namespace HomeAutomation
 
                 });
 
-               
-               
-
             }
             else if (equipment.Name == "Heater")
             {
@@ -327,9 +321,6 @@ namespace HomeAutomation
                     Up = false
 
                 });
-
-               
-               
 
             }
             else if (equipment.Name == "Door")
@@ -342,8 +333,6 @@ namespace HomeAutomation
 
                 });
 
-               
-              
 
             }
             else if (equipment.Name == "Lamp")
@@ -355,16 +344,12 @@ namespace HomeAutomation
                     Up = false
 
                 });
-
-               
                
             }
 
             fillDataGridRoomEquipments(room);
             dbContext.SaveChanges();
 
-
-   
         }
 
 
