@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace HomeAutomation.Models
 {
-    [Index(nameof(Name), IsUnique = true)]
-    internal class Equipment
+    [Index(nameof(Name), nameof(Room), IsUnique = true)]
+    public class Equipment
     {
         public int Id { get; set; }
 

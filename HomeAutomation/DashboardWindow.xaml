@@ -1,4 +1,4 @@
-﻿<Window x:Class="HomeAutomation.DashboardWindow"
+<Window x:Class="HomeAutomation.DashboardWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,17 +7,28 @@
         mc:Ignorable="d"
         Title="Dashboard" Height="450" Width="800" 
         WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        ResizeMode="NoResize"
+        WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.RowSpan="2">
+        <Label Content="Dashboard" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0"/>
+        <Menu Grid.ColumnSpan="2" Grid.Row="1">
+            <MenuItem Name="menuItemUsersManagement" Header="Users Management" Click="menuItemUsersManagement_Click"/>
+            <MenuItem Name="menuItemEquipmentsLogs" Header="Equipments Logs" Click="menuItemEquipmentsLogs_Click"/>
+            <MenuItem Name="menuItemChangePassword" Header="Change Password" Click="menuItemChangePassword_Click"/>
+            <MenuItem Name="menuItemLogout" Header="Logout" Click="menuItemLogout_Click"/>
+        </Menu>
+        <Grid Grid.RowSpan="2" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -49,7 +60,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -57,7 +68,7 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Content="Equipments Box" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <Label Content="Equipments Box" Grid.Row="0" FontWeight="Bold" HorizontalAlignment="Center"/>
             <ListView DragEnter="ListEquipment_DragEnter" AllowDrop="True" Grid.Row="1" Name="ListEquipment" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
@@ -71,7 +82,7 @@
                 </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="3" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
