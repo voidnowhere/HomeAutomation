@@ -33,7 +33,6 @@ namespace HomeAutomation
                 return;
             }
             using AppDbContext dbContext = new AppDbContext();
-            dbContext.SaveChanges();
             Person? person = dbContext.People.FirstOrDefault(u => u.Login == textBoxLogin.Text && u.Password == passwordBox.Password);
             if (person is null)
             {

@@ -24,7 +24,6 @@ namespace HomeAutomation
         public string Type { get; set; }
 
         [MaxLength(100)]
-        [DefaultValue("123456")]
         public string Password { get; set; }
 
         [MaxLength(100)]
@@ -41,7 +40,6 @@ namespace HomeAutomation
         [MaxLength(15)]
         public string PhoneNumber { get; set; }
 
-        [DefaultValue(true)]
         public bool IsAcive { get; set; }
 
         public virtual List<Log> Logs { get; set; }

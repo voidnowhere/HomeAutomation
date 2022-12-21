@@ -9,7 +9,6 @@ namespace HomeAutomation.Models
 {
     public class TV : Equipment
     {
-        [DefaultValue(0)]
         public int Volume { get; set; }
     }
 }

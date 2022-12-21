@@ -200,15 +200,15 @@ namespace HomeAutomation
                 sliderVolume.Value = sliderVolume.Minimum;
                 sliderVolume.IsEnabled = false;
                 toggleButtonOnOff.IsEnabled = true;
-                toggleButtonOnOff.IsChecked = equipment.Up;
+                toggleButtonOnOff.IsChecked = equipment.IsUp;
                 if (equipment is AC or Heater)
                 {
-                    sliderTemperature.Value = (double)((equipment is AC) ? ((AC)equipment).Temperature : ((Heater)equipment).Temperature);
+                    sliderTemperature.Value = (equipment is AC) ? ((AC)equipment).Temperature : ((Heater)equipment).Temperature;
                     sliderTemperature.IsEnabled = true;
                 }
                 else if (equipment is TV)
                 {
-                    sliderVolume.Value = (double)((TV)equipment).Volume;
+                    sliderVolume.Value = ((TV)equipment).Volume;
                     sliderVolume.IsEnabled = true;
                 }
             }
@@ -220,14 +220,14 @@ namespace HomeAutomation
             if (equipment is not null)
             {
                 using AppDbContext dbContext = new AppDbContext();
-                equipment.Up = (bool)toggleButtonOnOff.IsChecked;
+                equipment.IsUp = (bool)toggleButtonOnOff.IsChecked;
                 dbContext.Update(equipment);
                 dbContext.Attach(person);
                 dbContext.Logs.Add(new Log
                 {
                     Person = person,
                     Equipment = equipment,
-                    Status = "Turned " + ((equipment.Up) ? "On" : "Off")
+                    Status = "Turned " + ((equipment.IsUp) ? "On" : "Off")
                 });
                 dbContext.SaveChanges();
             }
@@ -282,20 +282,16 @@ namespace HomeAutomation
 
         private void ListEquipment_DragEnter(object sender, DragEventArgs e)
         {
-
             e.Effects = DragDropEffects.All;
             e.Handled = true;
-
         }
 
         private void TodoItem_MouseMove(object sender, MouseEventArgs e)
         {
-
             if (e.LeftButton == MouseButtonState.Pressed && sender is FrameworkElement frameworkElement)
             {
                 DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, frameworkElement.DataContext), DragDropEffects.All);
             }
-
         }
 
         private void dataGridRoomEquipments_Drop(object sender, DragEventArgs e)
@@ -311,73 +307,60 @@ namespace HomeAutomation
 
             if(room is null)
             {
-                MessageBox.Show("please select a line on the list room", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please select a room!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
-
             }
 
             dbContext.Attach(room);
-             if (equipment.Name == "AC")
+
+            string equipmentName = room.Name + " " + equipment.Name + " " + ((dbContext.Equipments.Max(e => (int?)e.Id) ?? 0) + 1);
+            int temperature = (int)sliderTemperature.Maximum;
+
+            if (equipment.Name == "AC")
             {
-                
                 dbContext.ACs.Add(new AC
                 {
-                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Name = equipmentName,
                     Room = room,
-                    Up = false
-                    
-                }); 
-
+                    Temperature = temperature
+                });
             }
             else if (equipment.Name == "TV")
             {
                 dbContext.TVs.Add(new TV
                 {
-                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e=>e.Id)+1),
-                    Room = room,
-                    Up = false
-
+                    Name = equipmentName,
+                    Room = room
                 });
-
             }
             else if (equipment.Name == "Heater")
             {
                 dbContext.Heaters.Add(new Heater
                 {
-                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Name = equipmentName,
                     Room = room,
-                    Up = false
-
+                    Temperature = temperature
                 });
-
             }
             else if (equipment.Name == "Door")
             {
                 dbContext.Doors.Add(new Door
                 {
-                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
+                    Name = equipmentName,
                     Room = room,
-                    Up = false
-
                 });
-
-
             }
             else if (equipment.Name == "Lamp")
             {
                 dbContext.Lamps.Add(new Lamp
                 {
-                    Name = room.Name + " " + equipment.Name + " " + (dbContext.Equipments.Max(e => e.Id) + 1),
-                    Room = room,
-                    Up = false
-
+                    Name = equipmentName,
+                    Room = room
                 });
-               
             }
 
-            fillDataGridRoomEquipments(room);
             dbContext.SaveChanges();
-
+            fillDataGridRoomEquipments(room);
         }
 
         private void menuItemChangePassword_Click(object sender, RoutedEventArgs e)
