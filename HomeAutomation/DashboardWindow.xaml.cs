@@ -229,12 +229,11 @@ namespace HomeAutomation
             {
                 using AppDbContext dbContext = new AppDbContext();
                 equipment.IsUp = (bool)toggleButtonOnOff.IsChecked;
-                dbContext.Update(equipment);
-                dbContext.Attach(person);
+                dbContext.Equipments.Update(equipment);
                 dbContext.Logs.Add(new Log
                 {
-                    Person = person,
-                    Equipment = equipment,
+                    Person = dbContext.People.Find(person.Id),
+                    Equipment = dbContext.Equipments.Find(equipment.Id),
                     Status = "Turned " + ((equipment.IsUp) ? "On" : "Off")
                 });
                 dbContext.SaveChanges();
