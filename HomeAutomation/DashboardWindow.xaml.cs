@@ -257,11 +257,10 @@ namespace HomeAutomation
                     ((Heater)equipment).Temperature = temperature;
                 }
                 dbContext.Equipments.Update(equipment);
-                dbContext.Attach(person);
                 dbContext.Logs.Add(new Log
                 {
-                    Person = person,
-                    Equipment = equipment,
+                    Person = dbContext.People.Find(person.Id),
+                    Equipment = dbContext.Equipments.Find(equipment.Id),
                     Status = $"Set temperature to {temperature}"
                 });
                 dbContext.SaveChanges();
@@ -277,11 +276,10 @@ namespace HomeAutomation
                 using AppDbContext dbContext = new AppDbContext();
                 ((TV)equipment).Volume = volume;
                 dbContext.Equipments.Update(equipment);
-                dbContext.Attach(person);
                 dbContext.Logs.Add(new Log
                 {
-                    Person = person,
-                    Equipment = equipment,
+                    Person = dbContext.People.Find(person.Id),
+                    Equipment = dbContext.Equipments.Find(equipment.Id),
                     Status = $"Set volume to {volume}"
                 });
                 dbContext.SaveChanges();
