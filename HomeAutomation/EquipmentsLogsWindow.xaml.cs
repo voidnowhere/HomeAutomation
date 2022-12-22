@@ -61,11 +61,14 @@ namespace HomeAutomation
         {
             using AppDbContext dbContext = new AppDbContext();
             Person person = ListPeople.SelectedItem as Person;
-        
-           // ListLogs.ItemsSource = new AppDbContext().Logs.Where(l => l.Person.Id == person.Id).ToList();
 
-            ListLogs.ItemsSource = dbContext.Logs.Include(l=> l.Equipment).Where(l=> l.Person.Id == person.Id).ToList();
+            // ListLogs.ItemsSource = new AppDbContext().Logs.Where(l => l.Person.Id == person.Id).ToList();
 
+            ListLogs.ItemsSource = dbContext.Logs
+                .Include(l => l.Equipment)
+                .Where(l => l.Person.Id == person.Id)
+                .OrderByDescending(l => l.When)
+                .ToList();
         }
     }
 }
