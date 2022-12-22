@@ -26,5 +26,23 @@
             <MenuItem Name="menuItemChangePassword" Header="Change Password" Click="menuItemChangePassword_Click"/>
             <MenuItem Name="menuItemLogout" Header="Logout" Click="menuItemLogout_Click"/>
         </Menu>
+        <ListView SelectionChanged="ListPeople_SelectionChanged" HorizontalAlignment="Left" Height="395" Grid.Row="2" VerticalAlignment="Center" Width="210" Name="ListPeople" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="LastName" Width="100" DisplayMemberBinding="{Binding LastName}"/>
+                    <GridViewColumn Header="FirstName" Width="100" DisplayMemberBinding="{Binding FirstName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView HorizontalAlignment="Left" Grid.Row="2" Width="583" Name="ListLogs" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.ColumnSpan="2" Margin="207,0,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Equipment" Width="150" DisplayMemberBinding="{Binding Equipment.Name}"/>
+                    <GridViewColumn Header="Type" Width="123" DisplayMemberBinding="{Binding Equipment.Type}"/>
+                    <GridViewColumn Header="Status" Width="150" DisplayMemberBinding="{Binding Status}"/>
+                    <GridViewColumn Header="When" Width="150" DisplayMemberBinding="{Binding When}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

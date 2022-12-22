@@ -12,7 +12,6 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -26,5 +25,46 @@
             <MenuItem Name="menuItemChangePassword" Header="Change Password" Click="menuItemChangePassword_Click"/>
             <MenuItem Name="menuItemLogout" Header="Logout" Click="menuItemLogout_Click"/>
         </Menu>
+        <TextBox x:Name="LoginBox" HorizontalAlignment="Left" Margin="60,36,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="247,36,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="CinBox" HorizontalAlignment="Left" Margin="430,112,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FirstNameBox" HorizontalAlignment="Left" Margin="429,36,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BirthDayBox" HorizontalAlignment="Left" Margin="64,111,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="LastNameBox" HorizontalAlignment="Left" Margin="613,36,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.553,3.085"/>
+        <TextBox x:Name="PhoneBox" HorizontalAlignment="Left" Margin="247,111,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Login" HorizontalAlignment="Left" Margin="100,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="277,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="First Name" HorizontalAlignment="Left" Margin="456,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Last Name" HorizontalAlignment="Left" Margin="640,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="CIN" HorizontalAlignment="Left" Margin="475,81,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Birth Day" HorizontalAlignment="Left" Margin="91,80,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Phone number" HorizontalAlignment="Left" Margin="263,80,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Button Content="ADD" HorizontalAlignment="Left" Margin="100,170,0,0" Grid.Row="2" VerticalAlignment="Top" Width="84" Height="26" RenderTransformOrigin="0.7,0.462" Click="Button_Click"/>
+        <Button Content="Edit" HorizontalAlignment="Center" Margin="0,170,0,0" Grid.Row="2" VerticalAlignment="Top" Width="84" Height="27" Loaded="Window_Loaded"/>
+        <Button Content="Activat" HorizontalAlignment="Right" Margin="0,170,100,0" Grid.Row="2" VerticalAlignment="Top" Width="84" Height="26" RenderTransformOrigin="0.5,0.5">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="2.454"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.557"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <ListView x:Name="UserListView" Grid.Row="2"   Margin="0,253,0,0" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View  >
+                <GridView >
+
+                    <GridViewColumn Header="Login" DisplayMemberBinding="{Binding Login}"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}"/>
+                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
+                    <GridViewColumn Header="CIN" DisplayMemberBinding="{Binding NIC}"/>
+                    <GridViewColumn Header="Birth day" DisplayMemberBinding="{Binding BirthDay }"/>
+                    <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                    <GridViewColumn Header="is Active" DisplayMemberBinding="{Binding IsActive}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
